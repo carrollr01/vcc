@@ -49,7 +49,7 @@
                         <a href="about-us.html" class="hover:text-white uppercase transition-colors duration-200 text-sm font-medium text-white/80 tracking-widest -translate-x-2">About Us</a>
                         <a href="tennis.html" class="hover:text-white uppercase transition-colors duration-200 text-sm font-medium text-white/80 tracking-widest -translate-x-2">Tennis &amp; Pickleball</a>
                         <a href="swim.html" class="hover:text-white uppercase transition-colors duration-200 text-sm font-medium text-white/80 tracking-widest -translate-x-2">Swim Team</a>
-                        <a href="swim.html" class="hover:text-white uppercase transition-colors duration-200 text-sm font-medium text-white/80 tracking-widest -translate-x-2">Swim Lessons</a>
+                        <a href="lessons.html" class="hover:text-white uppercase transition-colors duration-200 text-sm font-medium text-white/80 tracking-widest -translate-x-2">Swim Lessons</a>
                     </div>
     
                     <!-- Mobile Menu Button -->
@@ -69,7 +69,7 @@
                     <a href="about-us.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">About Us</a>
                     <a href="tennis.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Tennis &amp; Pickleball</a>
                     <a href="swim.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Swim Team</a>
-                    <a href="swim.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Swim Lessons</a>
+                    <a href="lessons.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Swim Lessons</a>
                 </div>
             </div>
     
@@ -320,35 +320,33 @@
                 const mobileMenu = document.getElementById('mobile-menu');
                 const menuIcon = document.getElementById('menu-icon');
                 const closeIcon = document.getElementById('close-icon');
+                const nav = document.getElementById('main-nav');
                 
                 if (menuButton && mobileMenu) {
-                    // Set initial background based on scroll position
-                    const scrollY = window.scrollY || window.pageYOffset;
-                    if (scrollY > 100) {
-                        mobileMenu.style.backgroundColor = '#262F24';
-                    } else {
-                        mobileMenu.style.backgroundColor = 'transparent';
-                    }
-                    
                     menuButton.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const isHidden = mobileMenu.classList.contains('hidden');
-                        const currentScrollY = window.scrollY || window.pageYOffset;
                         
                         if (isHidden) {
                             mobileMenu.classList.remove('hidden');
                             menuIcon.classList.add('hidden');
                             closeIcon.classList.remove('hidden');
-                            // Set background based on current scroll position
-                            if (currentScrollY > 100) {
-                                mobileMenu.style.backgroundColor = '#262F24';
-                            } else {
-                                mobileMenu.style.backgroundColor = 'transparent';
-                            }
+                            // Set both header and menu to pine green immediately
+                            if (nav) nav.style.backgroundColor = '#262F24';
+                            mobileMenu.style.backgroundColor = '#262F24';
                         } else {
                             mobileMenu.classList.add('hidden');
                             menuIcon.classList.remove('hidden');
                             closeIcon.classList.add('hidden');
+                            // Restore header background based on scroll position
+                            const scrollY = window.scrollY || window.pageYOffset;
+                            if (nav) {
+                                if (scrollY > 100) {
+                                    nav.style.backgroundColor = '#262F24';
+                                } else {
+                                    nav.style.backgroundColor = '';
+                                }
+                            }
                         }
                     });
                     
@@ -359,6 +357,15 @@
                             mobileMenu.classList.add('hidden');
                             menuIcon.classList.remove('hidden');
                             closeIcon.classList.add('hidden');
+                            // Restore header background based on scroll position
+                            const scrollY = window.scrollY || window.pageYOffset;
+                            if (nav) {
+                                if (scrollY > 100) {
+                                    nav.style.backgroundColor = '#262F24';
+                                } else {
+                                    nav.style.backgroundColor = '';
+                                }
+                            }
                         });
                     });
                     
@@ -368,6 +375,15 @@
                             mobileMenu.classList.add('hidden');
                             menuIcon.classList.remove('hidden');
                             closeIcon.classList.add('hidden');
+                            // Restore header background based on scroll position
+                            const scrollY = window.scrollY || window.pageYOffset;
+                            if (nav) {
+                                if (scrollY > 100) {
+                                    nav.style.backgroundColor = '#262F24';
+                                } else {
+                                    nav.style.backgroundColor = '';
+                                }
+                            }
                         }
                     });
                 }
