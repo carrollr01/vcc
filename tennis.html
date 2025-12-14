@@ -61,12 +61,24 @@
                     </div>
                     <!-- Mobile Menu Button -->
                     <div class="md:hidden">
-                        <button class="text-white hover:text-white/80 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" class="lucide lucide-menu w-8 h-8"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+                        <button id="mobile-menu-button" class="text-white hover:text-white/80 transition-colors" aria-label="Toggle menu">
+                            <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" class="lucide lucide-menu w-8 h-8"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+                            <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" class="lucide lucide-x w-8 h-8 hidden"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
                         </button>
                     </div>
                 </div>
             </nav>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden fixed top-[73px] left-0 right-0 z-30 bg-[#262F24] border-b border-white/20 transition-all duration-300">
+                <div class="px-6 py-6 space-y-4">
+                    <a href="#" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">2026 Membership</a>
+                    <a href="about-us.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">About Us</a>
+                    <a href="tennis.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Tennis &amp; Pickleball</a>
+                    <a href="swim.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Swim Team</a>
+                    <a href="swim.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">Swim Lessons</a>
+                </div>
+            </div>
 
             <!-- Main Hero Content -->
             <div class="flex-grow flex flex-col z-10 text-center pr-4 pl-4 relative items-center justify-center">
@@ -265,12 +277,15 @@
             function updateNavBackground() {
                 const scrollY = window.scrollY || window.pageYOffset;
                 const isScrolled = scrollY > 100;
+                const mobileMenu = document.getElementById('mobile-menu');
                 
                 // Update background
                 if (isScrolled) {
                     nav.style.backgroundColor = '#262F24';
+                    if (mobileMenu) mobileMenu.style.backgroundColor = '#262F24';
                 } else {
                     nav.style.backgroundColor = '';
+                    if (mobileMenu) mobileMenu.style.backgroundColor = '#262F24';
                 }
                 
                 // Update active link styling
@@ -301,6 +316,49 @@
             window.addEventListener('scroll', onScroll, { passive: true });
             // Check initial state
             updateNavBackground();
+        })();
+        
+        // Mobile menu toggle
+        (function() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', function() {
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    
+                    if (isHidden) {
+                        mobileMenu.classList.remove('hidden');
+                        menuIcon.classList.add('hidden');
+                        closeIcon.classList.remove('hidden');
+                    } else {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    }
+                });
+                
+                // Close menu when clicking on a link
+                const menuLinks = mobileMenu.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!menuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    }
+                });
+            }
         })();
     </script>
 </body></html>
