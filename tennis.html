@@ -254,18 +254,38 @@
         // Initialize Icons
         lucide.createIcons();
         
-        // Fixed header with scroll background transition
+        // Fixed header with scroll background transition and active page indicator
         (function() {
             const nav = document.getElementById('main-nav');
             let ticking = false;
             
+            // Find the active navigation link
+            let activeLink = nav.querySelector('a[href*="tennis"]');
+            
             function updateNavBackground() {
                 const scrollY = window.scrollY || window.pageYOffset;
+                const isScrolled = scrollY > 100;
                 
-                if (scrollY > 100) {
+                // Update background
+                if (isScrolled) {
                     nav.style.backgroundColor = '#262F24';
                 } else {
                     nav.style.backgroundColor = '';
+                }
+                
+                // Update active link styling
+                if (activeLink) {
+                    // Remove previous active classes
+                    activeLink.classList.remove('text-[#262F24]', 'text-white', 'font-semibold');
+                    activeLink.style.color = '';
+                    
+                    if (isScrolled) {
+                        // When scrolled: white and semibold
+                        activeLink.classList.add('text-white', 'font-semibold');
+                    } else {
+                        // When at top: header green
+                        activeLink.style.color = '#262F24';
+                    }
                 }
                 
                 ticking = false;

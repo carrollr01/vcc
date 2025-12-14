@@ -133,7 +133,7 @@
                         </div>
                         <h3 class="text-4xl font-instrument-serif text-slate-900">Semi-Private Lessons</h3>
                         <p class="text-slate-500 text-lg font-light leading-relaxed">
-                            Learn to swim with a friend or sibling who is similar in skill. Sign up for a SEMI-PRIVATE half-hour lesson for $40.00, that’s only $20.00 per swimmer ($50.00 for non-members)!
+                            With a friend or sibling with comparable skills, sign up for a SEMI-PRIVATE half-hour lesson for $40.00, that’s only $20.00 per swimmer ($50.00 for non-members)!
                         </p>
                         <div class="pt-4">
                             <a href="#" onclick="switchPage('lessons'); return false;" class="text-sm font-medium text-green-700 hover:text-green-800 flex items-center group">
@@ -326,21 +326,69 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Fixed header with scroll background transition
+        // Fixed header with scroll background transition and active page indicator
         (function() {
             const nav = document.getElementById('main-nav');
             const navLessons = document.getElementById('main-nav-lessons');
             let ticking = false;
             
+            // Find the active navigation links - "Swim Lessons" for lessons page
+            let activeLink = null;
+            let activeLinkLessons = null;
+            
+            if (nav) {
+                const navLinks = nav.querySelectorAll('a[href*="swim"]');
+                navLinks.forEach(link => {
+                    if (link.textContent.includes('Swim Lessons')) {
+                        activeLink = link;
+                    }
+                });
+            }
+            
+            if (navLessons) {
+                const navLinksLessons = navLessons.querySelectorAll('a[href*="swim"]');
+                navLinksLessons.forEach(link => {
+                    if (link.textContent.includes('Swim Lessons')) {
+                        activeLinkLessons = link;
+                    }
+                });
+            }
+            
             function updateNavBackground() {
                 const scrollY = window.scrollY || window.pageYOffset;
+                const isScrolled = scrollY > 100;
                 
-                if (scrollY > 100) {
+                // Update background
+                if (isScrolled) {
                     if (nav) nav.style.backgroundColor = '#262F24';
                     if (navLessons) navLessons.style.backgroundColor = '#262F24';
                 } else {
                     if (nav) nav.style.backgroundColor = '';
                     if (navLessons) navLessons.style.backgroundColor = '';
+                }
+                
+                // Update active link styling for main nav
+                if (activeLink) {
+                    activeLink.classList.remove('text-[#262F24]', 'text-white', 'font-semibold');
+                    activeLink.style.color = '';
+                    
+                    if (isScrolled) {
+                        activeLink.classList.add('text-white', 'font-semibold');
+                    } else {
+                        activeLink.style.color = '#262F24';
+                    }
+                }
+                
+                // Update active link styling for lessons nav
+                if (activeLinkLessons) {
+                    activeLinkLessons.classList.remove('text-[#262F24]', 'text-white', 'font-semibold');
+                    activeLinkLessons.style.color = '';
+                    
+                    if (isScrolled) {
+                        activeLinkLessons.classList.add('text-white', 'font-semibold');
+                    } else {
+                        activeLinkLessons.style.color = '#262F24';
+                    }
                 }
                 
                 ticking = false;
