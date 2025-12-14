@@ -68,7 +68,7 @@
         </nav>
         
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden fixed top-[73px] left-0 right-0 z-30 bg-[#262F24] border-b border-white/20 transition-all duration-300">
+        <div id="mobile-menu" class="hidden md:hidden fixed top-[73px] left-0 right-0 z-30 border-b border-white/20 transition-all duration-300">
           <div class="px-6 py-6 space-y-4">
             <a href="#" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">2026 Membership</a>
             <a href="about-us.html" class="block text-white uppercase text-sm font-medium tracking-widest py-2 hover:text-white/80 transition-colors">About Us</a>
@@ -718,7 +718,7 @@
             if (mobileMenu) mobileMenu.style.backgroundColor = '#262F24';
           } else {
             nav.style.backgroundColor = '';
-            if (mobileMenu) mobileMenu.style.backgroundColor = '#262F24';
+            if (mobileMenu) mobileMenu.style.backgroundColor = 'transparent';
           }
           
           // Update active link styling
@@ -759,13 +759,29 @@
         const closeIcon = document.getElementById('close-icon');
         
         if (menuButton && mobileMenu) {
-          menuButton.addEventListener('click', function() {
+          // Set initial background based on scroll position
+          const scrollY = window.scrollY || window.pageYOffset;
+          if (scrollY > 100) {
+            mobileMenu.style.backgroundColor = '#262F24';
+          } else {
+            mobileMenu.style.backgroundColor = 'transparent';
+          }
+          
+          menuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
             const isHidden = mobileMenu.classList.contains('hidden');
+            const currentScrollY = window.scrollY || window.pageYOffset;
             
             if (isHidden) {
               mobileMenu.classList.remove('hidden');
               menuIcon.classList.add('hidden');
               closeIcon.classList.remove('hidden');
+              // Set background based on current scroll position
+              if (currentScrollY > 100) {
+                mobileMenu.style.backgroundColor = '#262F24';
+              } else {
+                mobileMenu.style.backgroundColor = 'transparent';
+              }
             } else {
               mobileMenu.classList.add('hidden');
               menuIcon.classList.remove('hidden');
